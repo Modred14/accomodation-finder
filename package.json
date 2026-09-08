@@ -1,21 +1,31 @@
 {
-  "name": "accomodation-finder",
+  "name": "oau-lodge",
   "version": "0.1.0",
   "private": true,
   "scripts": {
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint"
+    "lint": "eslint",
+    "db:migrate": "node db/migrate.mjs",
+    "db:seed": "node db/seed.mjs"
   },
   "dependencies": {
+    "@fontsource/fraunces": "^5.3.0",
+    "@fontsource/ibm-plex-sans": "^5.3.0",
+    "bcryptjs": "^3.0.3",
+    "date-fns": "^4.4.0",
+    "dotenv": "^17.4.2",
+    "jose": "^6.2.12",
+    "lucide-react": "^1.41.0",
     "next": "16.3.4",
+    "pg": "^8.23.0",
     "react": "19.2.8",
-    "react-dom": "19.2.8"
+    "react-dom": "19.2.8",
+    "zod": "^4.5.4"
   },
   "devDependencies": {
     "@tailwindcss/postcss": "^4",
-    "babel-plugin-react-compiler": "1.0.0",
     "eslint": "^9",
     "eslint-config-next": "16.3.4",
     "tailwindcss": "^4"
