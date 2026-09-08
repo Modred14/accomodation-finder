@@ -147,3 +147,4 @@ The seed script creates one account per role. Password for all of them:
   don't personally own), that's a natural next iteration on top of the
   existing `role` column.
 # accomodation-finder
+# accomodation-finder
