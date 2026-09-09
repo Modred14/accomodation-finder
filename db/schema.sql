@@ -1,5 +1,5 @@
 -- db/schema.sql
--- OAU Lodge — Student Accommodation Search & Management
+-- Abodé — Student Accommodation Search & Management
 -- PostgreSQL schema, designed for Neon Postgres.
 -- Safe to re-run: drops existing objects first (dev convenience).
 

@@ -119,7 +119,7 @@ async function main() {
     const adminId = await makeUser({
       role: "admin",
       full_name: "Adaeze Okafor",
-      email: "admin@oaulodge.app",
+      email: "admin@abode.app",
       phone: "+2348030000001",
       is_verified: true,
       bio: "Platform administrator.",
@@ -128,7 +128,7 @@ async function main() {
     const landlord1 = await makeUser({
       role: "landlord",
       full_name: "Chief Bayo Adeyemi",
-      email: "bayo.landlord@oaulodge.app",
+      email: "bayo.landlord@abode.app",
       phone: "+2348030000002",
       is_verified: true,
       bio: "Property owner in Damico and Road 1 since 2011.",
@@ -137,7 +137,7 @@ async function main() {
     const landlord2 = await makeUser({
       role: "landlord",
       full_name: "Mrs. Funke Ige",
-      email: "funke.landlord@oaulodge.app",
+      email: "funke.landlord@abode.app",
       phone: "+2348030000003",
       is_verified: false,
       bio: "Family-owned apartments around Mayfair.",
@@ -146,7 +146,7 @@ async function main() {
     const agent1 = await makeUser({
       role: "agent",
       full_name: "Tunde Bakare",
-      email: "tunde.agent@oaulodge.app",
+      email: "tunde.agent@abode.app",
       phone: "+2348030000004",
       is_verified: true,
       agency_name: "Ife Homes Realty",
@@ -155,11 +155,11 @@ async function main() {
 
     const students = [];
     const studentSeed = [
-      ["Chiamaka Nwosu", "chiamaka.student@oaulodge.app"],
-      ["Segun Fashola", "segun.student@oaulodge.app"],
-      ["Halima Yusuf", "halima.student@oaulodge.app"],
-      ["Emeka Umeh", "emeka.student@oaulodge.app"],
-      ["Blessing Etim", "blessing.student@oaulodge.app"],
+      ["Chiamaka Nwosu", "chiamaka.student@abode.app"],
+      ["Segun Fashola", "segun.student@abode.app"],
+      ["Halima Yusuf", "halima.student@abode.app"],
+      ["Emeka Umeh", "emeka.student@abode.app"],
+      ["Blessing Etim", "blessing.student@abode.app"],
     ];
     for (const [full_name, email] of studentSeed) {
       const id = await makeUser({
@@ -497,10 +497,10 @@ async function main() {
 
     console.log("Seed complete.");
     console.log("Demo login password for every seeded user:", DEMO_PASSWORD);
-    console.log("Admin:", "admin@oaulodge.app");
-    console.log("Landlord:", "bayo.landlord@oaulodge.app");
-    console.log("Agent:", "tunde.agent@oaulodge.app");
-    console.log("Student:", "chiamaka.student@oaulodge.app");
+    console.log("Admin:", "admin@abode.app");
+    console.log("Landlord:", "bayo.landlord@abode.app");
+    console.log("Agent:", "tunde.agent@abode.app");
+    console.log("Student:", "chiamaka.student@abode.app");
   } finally {
     client.release();
     await pool.end();
