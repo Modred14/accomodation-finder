@@ -1,6 +1,5 @@
 // app/page.js
 import Link from "next/link";
-import Image from "next/image";
 import {
   ShieldCheck,
   Search,
@@ -20,6 +19,7 @@ import { getFavouriteIds } from "@/lib/queries/favourites";
 import { getComparisonIds } from "@/lib/queries/comparisons";
 import PropertyCard from "@/components/accommodation/PropertyCard";
 import Button from "@/components/ui/Button";
+import SafeImage from "@/components/ui/SafeImage";
 import { formatNaira, periodLabel } from "@/lib/format";
 
 // A quiet bronze relief texture on the deep-navy sections — a nod to the Ife
@@ -136,21 +136,21 @@ export default async function HomePage() {
               {stackPhotos[2] && (
                 <div className="absolute right-6 top-2 h-64 w-52 -rotate-6 rounded-lg border-4 border-white bg-white shadow-card">
                   <div className="relative h-full w-full overflow-hidden rounded-sm">
-                    <Image src={stackPhotos[2].cover_image} alt={stackPhotos[2].title} fill sizes="220px" className="object-cover" />
+                    <SafeImage src={stackPhotos[2].cover_image} alt={stackPhotos[2].cover_image_alt || `Exterior of ${stackPhotos[2].title}`} fill sizes="220px" className="object-cover" />
                   </div>
                 </div>
               )}
               {stackPhotos[1] && (
                 <div className="absolute left-2 top-16 h-64 w-52 rotate-3 rounded-lg border-4 border-white bg-white shadow-card">
                   <div className="relative h-full w-full overflow-hidden rounded-sm">
-                    <Image src={stackPhotos[1].cover_image} alt={stackPhotos[1].title} fill sizes="220px" className="object-cover" />
+                    <SafeImage src={stackPhotos[1].cover_image} alt={stackPhotos[1].cover_image_alt || `Exterior of ${stackPhotos[1].title}`} fill sizes="220px" className="object-cover" />
                   </div>
                 </div>
               )}
               {stackPhotos[0] && (
                 <div className="absolute bottom-2 left-24 h-72 w-60 -rotate-2 rounded-lg border-4 border-white bg-white shadow-card transition-transform duration-500 hover:rotate-0">
                   <div className="relative h-full w-full overflow-hidden rounded-sm">
-                    <Image src={stackPhotos[0].cover_image} alt={stackPhotos[0].title} fill sizes="240px" className="object-cover" />
+                    <SafeImage src={stackPhotos[0].cover_image} alt={stackPhotos[0].cover_image_alt || `Exterior of ${stackPhotos[0].title}`} fill sizes="240px" className="object-cover" />
                   </div>
                   {priceTagProperty && (
                     <span className="absolute -bottom-3 left-3 inline-flex items-center rounded-full bg-accent-500 px-3 py-1.5 text-xs font-semibold text-white shadow-card">
@@ -207,19 +207,15 @@ export default async function HomePage() {
       {/* What "verified" actually means */}
       <section className="border-y border-border bg-surface">
         <div className="mx-auto grid max-w-7xl gap-10 px-4 py-16 sm:px-6 lg:grid-cols-2 lg:items-center lg:gap-16 lg:px-8">
-          {priceTagProperty ? (
-            <div className="relative aspect-[4/5] w-full overflow-hidden rounded-xl border border-border bg-surface-2 lg:order-2">
-              <Image
-                src={priceTagProperty.cover_image}
-                alt={priceTagProperty.title}
-                fill
-                sizes="(max-width: 1024px) 100vw, 40vw"
-                className="object-cover"
-              />
-            </div>
-          ) : (
-            <div className="aspect-[4/5] w-full rounded-xl border border-border bg-surface-2 lg:order-2" />
-          )}
+          <div className="relative aspect-[4/5] w-full overflow-hidden rounded-xl border border-border bg-surface-2 lg:order-2">
+            <SafeImage
+              src={priceTagProperty?.cover_image}
+              alt={priceTagProperty?.cover_image_alt || (priceTagProperty ? `Exterior of ${priceTagProperty.title}` : "Property photo")}
+              fill
+              sizes="(max-width: 1024px) 100vw, 40vw"
+              className="object-cover"
+            />
+          </div>
 
           <div className="lg:order-1">
             <h2 className="font-display text-3xl font-medium leading-tight text-ink">

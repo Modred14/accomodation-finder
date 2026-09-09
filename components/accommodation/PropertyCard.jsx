@@ -1,8 +1,8 @@
 // components/accommodation/PropertyCard.jsx
-import Image from "next/image";
 import Link from "next/link";
 import { BedDouble, MapPin, ShieldCheck } from "lucide-react";
 import Badge from "@/components/ui/Badge";
+import SafeImage from "@/components/ui/SafeImage";
 import StarRating from "@/components/ui/StarRating";
 import FavouriteButton from "@/components/accommodation/FavouriteButton";
 import CompareToggle from "@/components/accommodation/CompareToggle";
@@ -15,17 +15,14 @@ export default function PropertyCard({ property, isAuthenticated, isFavourited, 
       className="group flex flex-col overflow-hidden rounded-xl border border-border bg-paper transition-shadow hover:shadow-card"
     >
       <div className="relative aspect-[4/3] w-full overflow-hidden bg-surface-2">
-        {property.cover_image ? (
-          <Image
-            src={property.cover_image}
-            alt={property.title}
-            fill
-            sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
-            className="object-cover transition-transform duration-300 group-hover:scale-105"
-          />
-        ) : (
-          <div className="flex h-full items-center justify-center text-sm text-muted">No photo yet</div>
-        )}
+        <SafeImage
+          src={property.cover_image}
+          alt={property.cover_image_alt || `Exterior of ${property.title}`}
+          label="No photo yet"
+          fill
+          sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
+          className="object-cover transition-transform duration-300 group-hover:scale-105"
+        />
 
         <div className="absolute left-2.5 top-2.5 flex flex-wrap gap-1.5">
           {property.is_verified && (

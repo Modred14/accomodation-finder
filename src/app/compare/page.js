@@ -1,7 +1,7 @@
 // app/compare/page.js
-import Image from "next/image";
 import Link from "next/link";
 import { Scale, X, ShieldCheck } from "lucide-react";
+import SafeImage from "@/components/ui/SafeImage";
 import { getCurrentUser } from "@/lib/auth";
 import {
   getComparisonIds,
@@ -125,17 +125,15 @@ export default async function ComparePage() {
                       href={`/accommodations/${p.slug}`}
                       className="block pr-6"
                     >
-                      {p.cover_image && (
-                        <div className="relative mb-2 h-24 w-full overflow-hidden rounded-lg">
-                          <Image
-                            src={p.cover_image}
-                            alt={p.title}
-                            fill
-                            sizes="220px"
-                            className="object-cover"
-                          />
-                        </div>
-                      )}
+                      <div className="relative mb-2 h-24 w-full overflow-hidden rounded-lg">
+                        <SafeImage
+                          src={p.cover_image}
+                          alt={p.cover_image_alt || `Exterior of ${p.title}`}
+                          fill
+                          sizes="220px"
+                          className="object-cover"
+                        />
+                      </div>
                       <p className="line-clamp-2 text-sm font-medium text-ink">
                         {p.title}
                       </p>

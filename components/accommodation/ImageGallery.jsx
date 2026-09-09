@@ -2,8 +2,8 @@
 "use client";
 
 import { useState } from "react";
-import Image from "next/image";
 import { X, ChevronLeft, ChevronRight, Images } from "lucide-react";
+import SafeImage from "@/components/ui/SafeImage";
 
 export default function ImageGallery({ images, title }) {
   const [open, setOpen] = useState(false);
@@ -40,11 +40,11 @@ export default function ImageGallery({ images, title }) {
           onClick={() => show(0)}
           className="relative col-span-4 row-span-2 aspect-[16/10] overflow-hidden sm:col-span-2 sm:row-span-2 sm:aspect-auto"
         >
-          <Image src={photos[0].url} alt={title} fill sizes="(max-width: 640px) 100vw, 50vw" className="object-cover" priority />
+          <SafeImage src={photos[0].url} alt={photos[0].alt || title} fill sizes="(max-width: 640px) 100vw, 50vw" className="object-cover" priority />
         </button>
         {photos.slice(1, 5).map((img, i) => (
           <button key={img.id} onClick={() => show(i + 1)} className="relative hidden aspect-square overflow-hidden sm:block">
-            <Image src={img.url} alt={title} fill sizes="25vw" className="object-cover" />
+            <SafeImage src={img.url} alt={img.alt || title} fill sizes="25vw" className="object-cover" />
             {i === 3 && photos.length > 5 && (
               <span className="absolute inset-0 flex items-center justify-center gap-1.5 bg-ink/50 text-sm font-medium text-white">
                 <Images className="h-4 w-4" /> +{photos.length - 5} more
@@ -65,7 +65,7 @@ export default function ImageGallery({ images, title }) {
             </button>
           </div>
           <div className="relative flex-1">
-            <Image src={photos[index].url} alt={title} fill sizes="100vw" className="object-contain" />
+            <SafeImage src={photos[index].url} alt={photos[index].alt || title} fill sizes="100vw" className="object-contain" />
             {photos.length > 1 && (
               <>
                 <button

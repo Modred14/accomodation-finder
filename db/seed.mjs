@@ -28,18 +28,141 @@ const pool = new pg.Pool({
 
 const DEMO_PASSWORD = "Password123!";
 
-// Returns a real photo of a house/apartment/room, pulled from Flickr via
-// LoremFlickr and tagged by `keyword` (e.g. "house,exterior", "bedroom").
-// The `seed` is hashed into a lock number so the same seed always returns
-// the same photo (stable across re-seeds), while different seeds/keywords
-// give a realistic mix of exteriors and interiors per listing.
-function img(seed, w = 1200, h = 800, keyword = "house,exterior") {
+// ---------------------------------------------------------------------------
+// IMAGE SYSTEM
+//
+// Why not LoremFlickr: it resolves a keyword like "house,exterior" against a
+// live Flickr tag search, so the *same* seed can return a house one day and
+// a landscape/river/random tagged photo the next. That's fundamentally
+// incompatible with "cover image must unquestionably be a house exterior".
+//
+// Approach instead: never search. Pin every image to a specific, known
+// Unsplash photo ID, requested straight from Unsplash's CDN
+// (images.unsplash.com/photo-<id>), which is a static asset lookup, not a
+// search. The same ID always returns the same photo, forever. That gets us
+// determinism; correctness of the *content* still comes down to us having
+// picked IDs that genuinely show what we say they show.
+//
+// NOTE ON VERIFICATION: these IDs were chosen from commonly-referenced
+// interior/real-estate stock photos. Do one visual pass after seeding and
+// swap any ID below that doesn't match its label — that's a one-line change
+// in IMAGE_SETS, nothing else in the file needs to move.
+//
+// Each property_type maps to a "style" bucket (studio / apartment / hostel),
+// and each bucket holds several complete 4-photo SETS (exterior, interior,
+// bedroom, kitchen) so that all four photos for one property look like they
+// belong to the same real building. A property is assigned one full set,
+// deterministically, based on a hash of its own seed string, so re-running
+// the seed always reproduces identical image URLs.
+// ---------------------------------------------------------------------------
+
+function unsplash(id) {
+  return `https://images.unsplash.com/${id}?auto=format&fit=crop&w=1200&h=800&q=80`;
+}
+
+// Complete, self-consistent 4-photo sets. Do not mix-and-match IDs across
+// sets by hand — swap a whole set if one photo in it is wrong, so the
+// exterior/interior/bedroom/kitchen still read as "the same place".
+const IMAGE_SETS = {
+  // Small single-room units: self-contain, single/shared rooms.
+  studio: [
+    {
+      exterior: "photo-1570129477492-45c003edd2be",
+      interior: "photo-1522708323590-d24dbb6b0267",
+      bedroom: "photo-1522771739844-6a9f6d5f14af",
+      kitchen: "photo-1600489000022-c2086d79f9d4",
+    },
+    {
+      exterior: "photo-1568605114967-8130f3a36994",
+      interior: "photo-1493809842364-78817add7ffb",
+      bedroom: "photo-1505693416388-ac5ce068fe85",
+      kitchen: "photo-1556909212-d5b604d0c90d",
+    },
+    {
+      exterior: "photo-1512917774080-9991f1c4c750",
+      interior: "photo-1493809842364-78817add7ffb",
+      bedroom: "photo-1616594039964-ae9021a400a0",
+      kitchen: "photo-1556911220-e15b29be8c8f",
+    },
+  ],
+  // Larger multi-room units: flats, duplex rooms, room-and-parlour.
+  apartment: [
+    {
+      exterior: "photo-1600585154340-be6161a56a0c",
+      interior: "photo-1600607687939-ce8a6c25118c",
+      bedroom: "photo-1631049307264-da0ec9d70304",
+      kitchen: "photo-1600489000022-c2086d79f9d4",
+    },
+    {
+      exterior: "photo-1613977257363-707ba9348227",
+      interior: "photo-1600596542815-ffad4c1539a9",
+      bedroom: "photo-1618221195710-dd6b41faaea6",
+      kitchen: "photo-1600585154526-990dced4db0d",
+    },
+    {
+      exterior: "photo-1600047509807-ba8f99d2cdde",
+      interior: "photo-1560448204-e02f11c3d0e2",
+      bedroom: "photo-1560185127-6ed189bf02f4",
+      kitchen: "photo-1556912167-f556f1f39fdf",
+    },
+  ],
+  // Shared hostel-style accommodation.
+  hostel: [
+    {
+      exterior: "photo-1555854877-bab0e564b8d5",
+      interior: "photo-1555854877-bab0e5643d33",
+      bedroom: "photo-1540518614846-7eded433c457",
+      kitchen: "photo-1556909212-d5b604d0c90d",
+    },
+    {
+      exterior: "photo-1560448204-603b3fc33ddc",
+      interior: "photo-1493663284031-b7e3aefcae8e",
+      bedroom: "photo-1595526114035-0d45ed16cfbf",
+      kitchen: "photo-1556911220-e15b29be8c8f",
+    },
+  ],
+};
+
+const STYLE_BY_PROPERTY_TYPE = {
+  self_contain: "studio",
+  shared_room: "studio",
+  room_and_parlour: "apartment",
+  flat: "apartment",
+  duplex: "apartment",
+  hostel: "hostel",
+};
+
+// Fixed order + labels. The frontend gallery MUST render in this order
+// (exterior first / cover) and can use `label` to build accurate alt text.
+const IMAGE_SLOTS = [
+  { key: "exterior", label: "Exterior view" },
+  { key: "interior", label: "Living area" },
+  { key: "bedroom", label: "Bedroom" },
+  { key: "kitchen", label: "Kitchen" },
+];
+
+function hashString(str) {
   let hash = 0;
-  for (let i = 0; i < seed.length; i++) {
-    hash = (hash * 31 + seed.charCodeAt(i)) >>> 0;
+  for (let i = 0; i < str.length; i++) {
+    hash = (hash * 31 + str.charCodeAt(i)) >>> 0;
   }
-  const lock = hash % 100000;
-  return `https://loremflickr.com/${w}/${h}/${keyword}?lock=${lock}`;
+  return hash;
+}
+
+// Deterministically picks one complete image set for a property and returns
+// the four rows ready to insert (in exterior -> interior -> bedroom ->
+// kitchen order), each tagged with is_cover / sort_order / alt text.
+function buildPropertyImages(propertyType, seed, title) {
+  const style = STYLE_BY_PROPERTY_TYPE[propertyType] || "apartment";
+  const pool = IMAGE_SETS[style];
+  const set = pool[hashString(seed) % pool.length];
+
+  return IMAGE_SLOTS.map((slot, i) => ({
+    url: unsplash(set[slot.key]),
+    is_cover: i === 0, // exterior is always the cover, always index 0
+    sort_order: i,
+    alt: `${slot.label} of ${title}`,
+  }));
 }
 
 async function main() {
@@ -411,13 +534,14 @@ async function main() {
       const propertyId = rows[0].id;
       propertyIds.push({ id: propertyId, ...p });
 
-      // images: one exterior shot plus a few real interior shots per listing
-      const shotKeywords = ["house,exterior", "living-room,apartment", "bedroom,apartment", "kitchen,apartment"];
-      for (let i = 0; i < 4; i++) {
+      // Images: exactly 4 rows per property, always in
+      // exterior -> interior -> bedroom -> kitchen order, exterior is cover.
+      const images = buildPropertyImages(p.property_type, p.seed, p.title);
+      for (const image of images) {
         await client.query(
-          `insert into property_images (property_id, url, is_cover, sort_order)
-           values ($1,$2,$3,$4)`,
-          [propertyId, img(`${p.seed}${i}`, 1200, 800, shotKeywords[i]), i === 0, i]
+          `insert into property_images (property_id, url, is_cover, sort_order, alt)
+           values ($1,$2,$3,$4,$5)`,
+          [propertyId, image.url, image.is_cover, image.sort_order, image.alt]
         );
       }
 

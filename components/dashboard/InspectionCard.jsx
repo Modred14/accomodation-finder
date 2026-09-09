@@ -3,11 +3,11 @@
 
 import { useState } from "react";
 import Link from "next/link";
-import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { CalendarDays, Clock } from "lucide-react";
 import Badge from "@/components/ui/Badge";
 import Button from "@/components/ui/Button";
+import SafeImage from "@/components/ui/SafeImage";
 import { useToast } from "@/components/ui/Toaster";
 
 const STATUS_TONE = {
@@ -52,11 +52,14 @@ export default function InspectionCard({ inspection, role }) {
 
   return (
     <div className="flex gap-3 rounded-xl border border-border p-4">
-      {inspection.property_image && (
-        <div className="relative h-16 w-16 shrink-0 overflow-hidden rounded-lg sm:h-20 sm:w-20">
-          <Image src={inspection.property_image} alt={inspection.property_title} fill className="object-cover" />
-        </div>
-      )}
+      <div className="relative h-16 w-16 shrink-0 overflow-hidden rounded-lg sm:h-20 sm:w-20">
+        <SafeImage
+          src={inspection.property_image}
+          alt={inspection.property_image_alt || `Exterior of ${inspection.property_title}`}
+          fill
+          className="object-cover"
+        />
+      </div>
       <div className="min-w-0 flex-1">
         <div className="flex flex-wrap items-start justify-between gap-2">
           <Link href={`/accommodations/${inspection.property_slug}`} className="line-clamp-1 text-sm font-medium text-ink hover:underline">

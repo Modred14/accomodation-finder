@@ -204,7 +204,18 @@ export default function PropertyForm({ universities, locations, facilities, init
             {form.image_urls.map((url, i) => (
               <div key={url} className="group relative aspect-square overflow-hidden rounded-lg border border-border">
                 {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img src={url} alt={`Photo ${i + 1}`} className="h-full w-full object-cover" />
+                <img
+                  src={url}
+                  alt={`Photo ${i + 1}`}
+                  className="h-full w-full object-cover"
+                  onError={(e) => {
+                    e.currentTarget.style.display = "none";
+                    e.currentTarget.nextElementSibling?.classList.remove("hidden");
+                  }}
+                />
+                <div className="hidden absolute inset-0 flex items-center justify-center bg-surface-2 text-[10px] text-muted">
+                  Couldn&apos;t load
+                </div>
                 {i === 0 && <span className="absolute left-1 top-1 rounded bg-ink/70 px-1.5 py-0.5 text-[10px] text-white">Cover</span>}
                 <button
                   type="button"

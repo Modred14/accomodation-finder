@@ -1,11 +1,11 @@
 // app/admin/listings/page.js
 import Link from "next/link";
-import Image from "next/image";
 import { ListChecks } from "lucide-react";
 import { getModerationQueue } from "@/lib/queries/admin";
 import DashboardShell from "@/components/layout/DashboardShell";
 import Badge from "@/components/ui/Badge";
 import EmptyState from "@/components/ui/EmptyState";
+import SafeImage from "@/components/ui/SafeImage";
 import ModerationActions from "@/components/admin/ModerationActions";
 import { formatNaira, periodLabel } from "@/lib/format";
 
@@ -25,11 +25,7 @@ export default async function AdminListingsPage() {
           {listings.map((p) => (
             <div key={p.id} className="flex flex-col gap-3 rounded-xl border border-border p-4 sm:flex-row">
               <div className="relative h-24 w-full shrink-0 overflow-hidden rounded-lg sm:h-20 sm:w-28">
-                {p.cover_image ? (
-                  <Image src={p.cover_image} alt={p.title} fill className="object-cover" />
-                ) : (
-                  <div className="flex h-full items-center justify-center bg-surface-2 text-xs text-muted">No photo</div>
-                )}
+                <SafeImage src={p.cover_image} alt={p.cover_image_alt || `Exterior of ${p.title}`} label="No photo" fill className="object-cover" />
               </div>
               <div className="min-w-0 flex-1">
                 <div className="flex flex-wrap items-center gap-2">

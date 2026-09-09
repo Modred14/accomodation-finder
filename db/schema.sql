@@ -159,6 +159,7 @@ create table property_images (
   id            uuid primary key default gen_random_uuid(),
   property_id   uuid not null references properties(id) on delete cascade,
   url           text not null,
+  alt           text not null default '',
   is_cover      boolean not null default false,
   sort_order    integer not null default 0,
   created_at    timestamptz not null default now()
