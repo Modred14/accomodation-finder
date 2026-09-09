@@ -158,7 +158,25 @@ export default function SearchFilters({ universities, locations, facilities }) {
           />
         </div>
       </div>
-
+   <div className="hidden w-full lg:flex">
+        <select
+          value={form.sort}
+          onChange={(e) => {
+            update("sort", e.target.value);
+            const params = new URLSearchParams(searchParams.toString());
+            params.set("sort", e.target.value);
+            router.push(`${pathname}?${params.toString()}`);
+          }}
+          className="rounded-lg border border-border bg-paper px-3 w-full py-3 text-sm"
+          aria-label="Sort by"
+        >
+          {SORTS.map((s) => (
+            <option key={s.value} value={s.value}>
+              {s.label}
+            </option>
+          ))}
+        </select>
+      </div>
       <Select label="Minimum bedrooms" value={form.minBedrooms} onChange={(e) => update("minBedrooms", e.target.value)}>
         <option value="">Any</option>
         <option value="1">1+</option>
@@ -257,25 +275,7 @@ export default function SearchFilters({ universities, locations, facilities }) {
       </div>
 
       {/* Desktop sort row */}
-      <div className="mb-4 hidden justify-end lg:flex">
-        <select
-          value={form.sort}
-          onChange={(e) => {
-            update("sort", e.target.value);
-            const params = new URLSearchParams(searchParams.toString());
-            params.set("sort", e.target.value);
-            router.push(`${pathname}?${params.toString()}`);
-          }}
-          className="rounded-lg border border-border bg-paper px-3 py-2 text-sm"
-          aria-label="Sort by"
-        >
-          {SORTS.map((s) => (
-            <option key={s.value} value={s.value}>
-              {s.label}
-            </option>
-          ))}
-        </select>
-      </div>
+   
 
       {/* Mobile filter sheet */}
       {open && (
