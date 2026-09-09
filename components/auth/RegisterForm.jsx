@@ -4,7 +4,7 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
-import { GraduationCap, Building2, Briefcase } from "lucide-react";
+import { GraduationCap, Building2, Briefcase, Eye, EyeOff } from "lucide-react";
 import Input from "@/components/ui/Input";
 import Select from "@/components/ui/Select";
 import Button from "@/components/ui/Button";
@@ -16,25 +16,46 @@ const ROLE_HOME = {
 };
 
 const ROLES = [
-  { value: "student", label: "Student", icon: GraduationCap, blurb: "Search & save rooms" },
-  { value: "landlord", label: "Landlord", icon: Building2, blurb: "List your property" },
-  { value: "agent", label: "Agent", icon: Briefcase, blurb: "Manage listings for owners" },
+  {
+    value: "student",
+    label: "Student",
+    icon: GraduationCap,
+    blurb: "Search & save rooms",
+  },
+  {
+    value: "landlord",
+    label: "Landlord",
+    icon: Building2,
+    blurb: "List your property",
+  },
+  {
+    value: "agent",
+    label: "Agent",
+    icon: Briefcase,
+    blurb: "Manage listings for owners",
+  },
 ];
 
 export default function RegisterForm({ universities, defaultRole }) {
   const router = useRouter();
   const [form, setForm] = useState({
-    role: defaultRole && ROLES.some((r) => r.value === defaultRole) ? defaultRole : "student",
+    role:
+      defaultRole && ROLES.some((r) => r.value === defaultRole)
+        ? defaultRole
+        : "student",
     full_name: "",
     email: "",
     phone: "",
     password: "",
+    confirm_password: "",
     university_id: universities[0]?.id || "",
     agency_name: "",
   });
   const [errors, setErrors] = useState({});
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
   function set(key, value) {
     setForm((f) => ({ ...f, [key]: value }));
@@ -45,11 +66,19 @@ export default function RegisterForm({ universities, defaultRole }) {
     setLoading(true);
     setError("");
     setErrors({});
+
+    if (form.password !== form.confirm_password) {
+      setErrors({ confirm_password: ["Passwords do not match."] });
+      setLoading(false);
+      return;
+    }
+
     try {
+      const { confirm_password, ...payload } = form;
       const res = await fetch("/api/auth/register", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(form),
+        body: JSON.stringify(payload),
       });
       const data = await res.json();
       if (!res.ok) {
@@ -75,7 +104,9 @@ export default function RegisterForm({ universities, defaultRole }) {
       )}
 
       <div>
-        <span className="mb-2 block text-sm font-medium text-ink">I am a...</span>
+        <span className="mb-2 block text-sm font-medium text-ink">
+          I am a...
+        </span>
         <div className="grid grid-cols-3 gap-2">
           {ROLES.map(({ value, label, icon: Icon, blurb }) => (
             <button
@@ -83,12 +114,18 @@ export default function RegisterForm({ universities, defaultRole }) {
               key={value}
               onClick={() => set("role", value)}
               className={`flex flex-col items-center gap-1.5 rounded-lg border px-2 py-3 text-center transition-colors ${
-                form.role === value ? "border-brand-700 bg-brand-50" : "border-border hover:bg-surface"
+                form.role === value
+                  ? "border-brand-700 bg-brand-50"
+                  : "border-border hover:bg-surface"
               }`}
             >
-              <Icon className={`h-5 w-5 ${form.role === value ? "text-brand-700" : "text-muted"}`} />
+              <Icon
+                className={`h-5 w-5 ${form.role === value ? "text-brand-700" : "text-muted"}`}
+              />
               <span className="text-xs font-semibold text-ink">{label}</span>
-              <span className="hidden text-[10px] text-muted sm:block">{blurb}</span>
+              <span className="hidden text-[10px] text-muted sm:block">
+                {blurb}
+              </span>
             </button>
           ))}
         </div>
@@ -145,16 +182,47 @@ export default function RegisterForm({ universities, defaultRole }) {
         />
       )}
 
-      <Input
-        label="Password"
-        type="password"
-        required
-        value={form.password}
-        onChange={(e) => set("password", e.target.value)}
-        error={errors.password?.[0]}
-        placeholder="At least 8 characters"
-        autoComplete="new-password"
-      />
+      <div className="relative">
+        <Input
+          label="Password"
+          type={showPassword ? "text" : "password"}
+          required
+          value={form.password}
+          onChange={(e) => set("password", e.target.value)}
+          error={errors.password?.[0]}
+          placeholder="At least 8 characters"
+          autoComplete="new-password"
+        />
+        <button
+          type="button"
+          onClick={() => setShowPassword((s) => !s)}
+          className="absolute right-3 top-[38px] text-muted hover:text-ink"
+          tabIndex={-1}
+        >
+          {showPassword ? <EyeOff size={15} /> : <Eye size={15} />}
+        </button>
+      </div>
+
+      <div className="relative">
+        <Input
+          label="Confirm password"
+          type={showConfirmPassword ? "text" : "password"}
+          required
+          value={form.confirm_password}
+          onChange={(e) => set("confirm_password", e.target.value)}
+          error={errors.confirm_password?.[0]}
+          placeholder="Re-enter your password"
+          autoComplete="new-password"
+        />
+        <button
+          type="button"
+          onClick={() => setShowConfirmPassword((s) => !s)}
+          className="absolute right-3 top-[38px] text-muted hover:text-ink"
+          tabIndex={-1}
+        >
+          {showConfirmPassword ? <EyeOff size={15} /> : <Eye size={15} />}
+        </button>
+      </div>
 
       <Button type="submit" size="lg" disabled={loading} className="mt-1">
         {loading ? "Creating account…" : "Create account"}
@@ -162,7 +230,10 @@ export default function RegisterForm({ universities, defaultRole }) {
 
       <p className="text-center text-sm text-muted">
         Already have an account?{" "}
-        <Link href="/login" className="font-medium text-brand-700 hover:underline">
+        <Link
+          href="/login"
+          className="font-medium text-brand-700 hover:underline"
+        >
           Sign in
         </Link>
       </p>

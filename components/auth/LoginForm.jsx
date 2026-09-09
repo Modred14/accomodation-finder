@@ -6,6 +6,7 @@ import { useRouter } from "next/navigation";
 import Link from "next/link";
 import Input from "@/components/ui/Input";
 import Button from "@/components/ui/Button";
+import { Eye, EyeOff } from "lucide-react";
 
 const ROLE_HOME = {
   student: "/dashboard",
@@ -19,6 +20,7 @@ export default function LoginForm({ next }) {
   const [form, setForm] = useState({ email: "", password: "" });
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
 
   async function handleSubmit(e) {
     e.preventDefault();
@@ -60,21 +62,35 @@ export default function LoginForm({ next }) {
         placeholder="you@example.com"
         autoComplete="email"
       />
-      <Input
-        label="Password"
-        type="password"
-        required
-        value={form.password}
-        onChange={(e) => setForm((f) => ({ ...f, password: e.target.value }))}
-        placeholder="••••••••"
-        autoComplete="current-password"
-      />
+      <div className="relative">
+        <Input
+          label="Password"
+          type={showPassword ? "text" : "password"}
+          required
+          value={form.password}
+          onChange={(e) => setForm((f) => ({ ...f, password: e.target.value }))}
+          placeholder="••••••••"
+          autoComplete="current-password"
+        />
+        <button
+          type="button"
+          onClick={() => setShowPassword((s) => !s)}
+          className="absolute right-3 top-[40px] text-muted hover:text-ink"
+          tabIndex={-1}
+        >
+          {showPassword ? <EyeOff size={15} /> : <Eye size={15} />}
+        </button>
+      </div>
+
       <Button type="submit" size="lg" disabled={loading} className="mt-1">
         {loading ? "Signing in…" : "Sign in"}
       </Button>
       <p className="text-center text-sm text-muted">
         Don&apos;t have an account?{" "}
-        <Link href="/register" className="font-medium text-brand-700 hover:underline">
+        <Link
+          href="/register"
+          className="font-medium text-brand-700 hover:underline"
+        >
           Create one
         </Link>
       </p>
