@@ -1,9 +1,9 @@
 // app/page.js
 import Link from "next/link";
 import Image from "next/image";
-import { ShieldCheck, Search, MessageCircle, MapPin, ArrowRight } from "lucide-react";
+import { ShieldCheck, Search, MessageCircle, MapPin, ArrowRight, School } from "lucide-react";
 import { searchProperties } from "@/lib/queries/properties";
-import { getUniversities, getLocations } from "@/lib/queries/universities";
+import { getUniversities } from "@/lib/queries/universities";
 import { getCurrentUser } from "@/lib/auth";
 import { getFavouriteIds } from "@/lib/queries/favourites";
 import { getComparisonIds } from "@/lib/queries/comparisons";
@@ -16,9 +16,6 @@ export default async function HomePage() {
     getUniversities(),
     searchProperties({ verifiedOnly: true, sort: "rating" }, { page: 1, pageSize: 6 }),
   ]);
-
-  const oau = universities.find((u) => u.short_name === "OAU") || universities[0];
-  const locations = oau ? await getLocations({ universityId: oau.id }) : [];
 
   let favouriteIds = [];
   let comparisonIds = [];
@@ -33,13 +30,13 @@ export default async function HomePage() {
         <div className="mx-auto grid max-w-7xl gap-10 px-4 py-14 sm:px-6 lg:grid-cols-2 lg:items-center lg:px-8 lg:py-24">
           <div>
             <span className="inline-flex items-center gap-1.5 rounded-full bg-white/10 px-3 py-1 text-xs font-medium text-accent-200">
-              <ShieldCheck className="h-3.5 w-3.5" /> Verified listings near OAU
+              <ShieldCheck className="h-3.5 w-3.5" /> Verified listings, worldwide
             </span>
             <h1 className="mt-5 font-display text-4xl font-medium leading-[1.1] text-white sm:text-5xl">
               Find your room before your mates do.
             </h1>
             <p className="mt-4 max-w-md text-[15px] leading-relaxed text-brand-100">
-              Search, compare, and inspect off-campus lodges around Obafemi Awolowo University —
+              Search, compare, and inspect off-campus accommodation near any university —
               with verified landlords, real prices, and no midnight scam alerts.
             </p>
 
@@ -48,7 +45,7 @@ export default async function HomePage() {
                 <Search className="h-4 w-4 shrink-0 text-muted" />
                 <input
                   name="q"
-                  placeholder="Search by area, e.g. Damico, Road 1, Mayfair"
+                  placeholder="Search by area, university, or keyword"
                   className="w-full bg-transparent text-[15px] text-ink placeholder:text-muted focus:outline-none"
                 />
               </label>
@@ -57,17 +54,24 @@ export default async function HomePage() {
               </Button>
             </form>
 
-            <div className="mt-6 flex flex-wrap gap-2">
-              {locations.slice(0, 5).map((l) => (
-                <Link
-                  key={l.id}
-                  href={`/accommodations?locationId=${l.id}`}
-                  className="rounded-full border border-white/20 px-3 py-1.5 text-xs font-medium text-white hover:bg-white/10"
-                >
-                  {l.name}
-                </Link>
-              ))}
-            </div>
+            {universities.length > 0 && (
+              <div className="mt-6">
+                <p className="mb-2 flex items-center gap-1.5 text-xs font-medium text-brand-200">
+                  <School className="h-3.5 w-3.5" /> Browse by university
+                </p>
+                <div className="flex flex-wrap gap-2">
+                  {universities.slice(0, 6).map((u) => (
+                    <Link
+                      key={u.id}
+                      href={`/accommodations?universityId=${u.id}`}
+                      className="rounded-full border border-white/20 px-3 py-1.5 text-xs font-medium text-white hover:bg-white/10"
+                    >
+                      {u.short_name}
+                    </Link>
+                  ))}
+                </div>
+              </div>
+            )}
           </div>
 
           <div className="hidden lg:block">
@@ -113,7 +117,7 @@ export default async function HomePage() {
         <div className="mb-6 flex items-end justify-between">
           <div>
             <h2 className="font-display text-2xl font-medium text-ink">Highly rated, verified rooms</h2>
-            <p className="mt-1 text-sm text-muted">A snapshot of what&apos;s available around OAU right now.</p>
+            <p className="mt-1 text-sm text-muted">A snapshot of what&apos;s available right now.</p>
           </div>
           <Link href="/accommodations" className="hidden items-center gap-1 text-sm font-medium text-brand-700 hover:underline sm:flex">
             View all <ArrowRight className="h-4 w-4" />
@@ -147,9 +151,9 @@ export default async function HomePage() {
       <section className="border-t border-border bg-brand-700">
         <div className="mx-auto flex max-w-7xl flex-col items-start gap-4 px-4 py-12 sm:px-6 lg:flex-row lg:items-center lg:justify-between lg:px-8">
           <div>
-            <h2 className="font-display text-2xl font-medium text-white">Own a property near campus?</h2>
+            <h2 className="font-display text-2xl font-medium text-white">Own a property near a campus?</h2>
             <p className="mt-1 max-w-lg text-sm text-brand-100">
-              List it on OAU Lodge and reach students actively searching for a place this session.
+              List it here and reach students actively searching for a place this session — anywhere in the world.
             </p>
           </div>
           <Button href="/register?role=landlord" variant="accent" size="lg" className="shrink-0">
