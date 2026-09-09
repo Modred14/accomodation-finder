@@ -28,8 +28,18 @@ const pool = new pg.Pool({
 
 const DEMO_PASSWORD = "Password123!";
 
-function img(seed, w = 1200, h = 800) {
-  return `https://picsum.photos/seed/${seed}/${w}/${h}`;
+// Returns a real photo of a house/apartment/room, pulled from Flickr via
+// LoremFlickr and tagged by `keyword` (e.g. "house,exterior", "bedroom").
+// The `seed` is hashed into a lock number so the same seed always returns
+// the same photo (stable across re-seeds), while different seeds/keywords
+// give a realistic mix of exteriors and interiors per listing.
+function img(seed, w = 1200, h = 800, keyword = "house,exterior") {
+  let hash = 0;
+  for (let i = 0; i < seed.length; i++) {
+    hash = (hash * 31 + seed.charCodeAt(i)) >>> 0;
+  }
+  const lock = hash % 100000;
+  return `https://loremflickr.com/${w}/${h}/${keyword}?lock=${lock}`;
 }
 
 async function main() {
@@ -401,12 +411,13 @@ async function main() {
       const propertyId = rows[0].id;
       propertyIds.push({ id: propertyId, ...p });
 
-      // images
+      // images: one exterior shot plus a few real interior shots per listing
+      const shotKeywords = ["house,exterior", "living-room,apartment", "bedroom,apartment", "kitchen,apartment"];
       for (let i = 0; i < 4; i++) {
         await client.query(
           `insert into property_images (property_id, url, is_cover, sort_order)
            values ($1,$2,$3,$4)`,
-          [propertyId, img(`${p.seed}${i}`), i === 0, i]
+          [propertyId, img(`${p.seed}${i}`, 1200, 800, shotKeywords[i]), i === 0, i]
         );
       }
 
