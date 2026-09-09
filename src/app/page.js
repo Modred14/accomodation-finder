@@ -219,10 +219,10 @@ export default async function HomePage() {
 
           <div className="lg:order-1">
             <h2 className="font-display text-3xl font-medium leading-tight text-ink">
-              The "Verified" badge means something specific
+              The &ldquo;Verified&rdquo; badge means something specific
             </h2>
             <p className="mt-3 max-w-md text-[15px] leading-relaxed text-muted">
-              It's not a checkbox a landlord ticks. Before a listing carries that badge, it has to
+              It&apos;s not a checkbox a landlord ticks. Before a listing carries that badge, it has to
               hold up to this:
             </p>
 
