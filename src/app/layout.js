@@ -11,6 +11,14 @@ const bricolage = Bricolage_Grotesque({
   subsets: ["latin"],
   variable: "--font-bricolage",
 });
+export const viewport = {
+  width: "device-width",
+  initialScale: 1,
+  maximumScale: 1,
+  userScalable: false,
+  
+};
+
 
 export const metadata = {
   title: "Abodé — Student Accommodation Near Campus",
