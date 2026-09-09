@@ -1,17 +1,16 @@
 // app/layout.js
-import "@fontsource/fraunces/400.css";
-import "@fontsource/fraunces/500.css";
-import "@fontsource/fraunces/600.css";
-import "@fontsource/ibm-plex-sans/400.css";
-import "@fontsource/ibm-plex-sans/500.css";
-import "@fontsource/ibm-plex-sans/600.css";
-import "@fontsource/ibm-plex-sans/700.css";
+import { Bricolage_Grotesque } from "next/font/google";
 import "./globals.css";
 import { getCurrentUser } from "@/lib/auth";
 import Navbar from "@/components/layout/Navbar";
 import MobileTabBar from "@/components/layout/MobileTabBar";
 import Footer from "@/components/layout/Footer";
 import { ToastProvider } from "@/components/ui/Toaster";
+
+const bricolage = Bricolage_Grotesque({
+  subsets: ["latin"],
+  variable: "--font-bricolage",
+});
 
 export const metadata = {
   title: "Abodé — Student Accommodation Near Campus",
@@ -23,7 +22,7 @@ export default async function RootLayout({ children }) {
   const user = await getCurrentUser();
 
   return (
-    <html lang="en" className="h-full antialiased">
+    <html lang="en" className={`h-full antialiased ${bricolage.variable}`}>
       <body className="min-h-full flex flex-col bg-paper text-ink">
         <ToastProvider>
           <Navbar user={user} />
