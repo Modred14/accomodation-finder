@@ -4,7 +4,7 @@ import { Building2 } from "lucide-react";
 import RegisterForm from "@/components/auth/RegisterForm";
 import { getUniversities } from "@/lib/queries/universities";
 
-export const metadata = { title: "Create account — OAU Lodge" };
+export const metadata = { title: "Create account — Abodé" };
 
 export default async function RegisterPage({ searchParams }) {
   const sp = await searchParams;
@@ -16,11 +16,11 @@ export default async function RegisterPage({ searchParams }) {
         <span className="flex h-9 w-9 items-center justify-center rounded-lg bg-brand-700 text-white">
           <Building2 className="h-5 w-5" />
         </span>
-        <span className="font-display text-xl font-medium">OAU Lodge</span>
+        <span className="font-display text-xl font-medium">Abodé</span>
       </Link>
       <div className="rounded-xl border border-border bg-paper p-6 sm:p-8">
         <h1 className="font-display text-2xl font-medium text-ink">Create your account</h1>
-        <p className="mt-1 mb-6 text-sm text-muted">Join students, landlords, and agents already on OAU Lodge.</p>
+        <p className="mt-1 mb-6 text-sm text-muted">Join students, landlords, and agents already on Abodé.</p>
         <RegisterForm universities={universities} defaultRole={sp.role} />
       </div>
     </div>

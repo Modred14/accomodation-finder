@@ -9,7 +9,7 @@ import DashboardShell from "@/components/layout/DashboardShell";
 import Button from "@/components/ui/Button";
 import Badge from "@/components/ui/Badge";
 
-export const metadata = { title: "Owner dashboard — OAU Lodge" };
+export const metadata = { title: "Owner dashboard — Abodé" };
 
 const STATUS_TONE = { draft: "neutral", pending_review: "accent", published: "success", rejected: "danger", archived: "neutral" };
 

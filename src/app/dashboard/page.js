@@ -9,7 +9,7 @@ import { getConversationsForUser } from "@/lib/queries/conversations";
 import DashboardShell from "@/components/layout/DashboardShell";
 import Button from "@/components/ui/Button";
 
-export const metadata = { title: "Dashboard — OAU Lodge" };
+export const metadata = { title: "Dashboard — Abodé" };
 
 export default async function StudentDashboardPage() {
   const user = await getCurrentUser();

@@ -3,7 +3,7 @@ import { getUniversities } from "@/lib/queries/universities";
 import DashboardShell from "@/components/layout/DashboardShell";
 import UniversityManager from "@/components/admin/UniversityManager";
 
-export const metadata = { title: "Universities — Admin — OAU Lodge" };
+export const metadata = { title: "Universities — Admin — Abodé" };
 
 export default async function AdminUniversitiesPage() {
   const universities = await getUniversities({ activeOnly: false });

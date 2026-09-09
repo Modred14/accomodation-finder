@@ -6,7 +6,7 @@ import DashboardShell from "@/components/layout/DashboardShell";
 import InspectionCard from "@/components/dashboard/InspectionCard";
 import EmptyState from "@/components/ui/EmptyState";
 
-export const metadata = { title: "Inspection requests — OAU Lodge" };
+export const metadata = { title: "Inspection requests — Abodé" };
 
 export default async function OwnerInspectionsPage() {
   const user = await getCurrentUser();

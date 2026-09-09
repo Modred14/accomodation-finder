@@ -4,7 +4,7 @@ import { Users, Building2, ShieldAlert, CalendarCheck, ListChecks } from "lucide
 import { getPlatformStats } from "@/lib/queries/admin";
 import DashboardShell from "@/components/layout/DashboardShell";
 
-export const metadata = { title: "Admin dashboard — OAU Lodge" };
+export const metadata = { title: "Admin dashboard — Abodé" };
 
 function sumBy(rows, key, value) {
   return rows.find((r) => r[key] === value)?.count || 0;

@@ -14,7 +14,7 @@ import Footer from "@/components/layout/Footer";
 import { ToastProvider } from "@/components/ui/Toaster";
 
 export const metadata = {
-  title: "OAU Lodge — Student Accommodation Near Campus",
+  title: "Abodé — Student Accommodation Near Campus",
   description:
     "Find, compare, and book verified off-campus accommodation near Obafemi Awolowo University and beyond.",
 };

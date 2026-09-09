@@ -4,7 +4,7 @@ import { getFacilities } from "@/lib/queries/properties";
 import DashboardShell from "@/components/layout/DashboardShell";
 import PropertyForm from "@/components/owner/PropertyForm";
 
-export const metadata = { title: "Add property — OAU Lodge" };
+export const metadata = { title: "Add property — Abodé" };
 
 export default async function NewListingPage() {
   const [universities, locations, facilities] = await Promise.all([

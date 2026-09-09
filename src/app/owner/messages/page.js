@@ -6,7 +6,7 @@ import DashboardShell from "@/components/layout/DashboardShell";
 import ConversationList from "@/components/dashboard/ConversationList";
 import EmptyState from "@/components/ui/EmptyState";
 
-export const metadata = { title: "Messages — OAU Lodge" };
+export const metadata = { title: "Messages — Abodé" };
 
 export default async function OwnerMessagesPage() {
   const user = await getCurrentUser();

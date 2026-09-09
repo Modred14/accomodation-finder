@@ -3,7 +3,7 @@ import { getUniversities, getLocations } from "@/lib/queries/universities";
 import DashboardShell from "@/components/layout/DashboardShell";
 import LocationManager from "@/components/admin/LocationManager";
 
-export const metadata = { title: "Locations — Admin — OAU Lodge" };
+export const metadata = { title: "Locations — Admin — Abodé" };
 
 export default async function AdminLocationsPage() {
   const [universities, locations] = await Promise.all([

@@ -19,7 +19,7 @@ import Button from "@/components/ui/Button";
 import ClearCompareButton from "@/components/accommodation/ClearCompareButton";
 import RemoveFromCompareButton from "@/components/accommodation/RemoveFromCompareButton";
 
-export const metadata = { title: "Compare properties — OAU Lodge" };
+export const metadata = { title: "Compare properties — Abodé" };
 
 export default async function ComparePage() {
   const user = await getCurrentUser();

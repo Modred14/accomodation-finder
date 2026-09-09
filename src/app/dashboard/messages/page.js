@@ -7,7 +7,7 @@ import ConversationList from "@/components/dashboard/ConversationList";
 import EmptyState from "@/components/ui/EmptyState";
 import Button from "@/components/ui/Button";
 
-export const metadata = { title: "Messages — OAU Lodge" };
+export const metadata = { title: "Messages — Abodé" };
 
 export default async function StudentMessagesPage() {
   const user = await getCurrentUser();

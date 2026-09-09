@@ -9,7 +9,7 @@ import PropertyCard from "@/components/accommodation/PropertyCard";
 import EmptyState from "@/components/ui/EmptyState";
 import Button from "@/components/ui/Button";
 
-export const metadata = { title: "Favourites — OAU Lodge" };
+export const metadata = { title: "Favourites — Abodé" };
 
 export default async function FavouritesPage() {
   const user = await getCurrentUser();

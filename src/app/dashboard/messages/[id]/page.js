@@ -8,7 +8,7 @@ import DashboardShell from "@/components/layout/DashboardShell";
 import ConversationList from "@/components/dashboard/ConversationList";
 import MessageThread from "@/components/dashboard/MessageThread";
 
-export const metadata = { title: "Conversation — OAU Lodge" };
+export const metadata = { title: "Conversation — Abodé" };
 
 export default async function StudentConversationPage({ params }) {
   const { id } = await params;

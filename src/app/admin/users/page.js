@@ -6,7 +6,7 @@ import Badge from "@/components/ui/Badge";
 import EmptyState from "@/components/ui/EmptyState";
 import UserActions from "@/components/admin/UserActions";
 
-export const metadata = { title: "Users — Admin — OAU Lodge" };
+export const metadata = { title: "Users — Admin — Abodé" };
 
 const ROLE_TABS = [
   { value: "", label: "All" },

@@ -7,7 +7,7 @@ import InspectionCard from "@/components/dashboard/InspectionCard";
 import EmptyState from "@/components/ui/EmptyState";
 import Button from "@/components/ui/Button";
 
-export const metadata = { title: "My inspections — OAU Lodge" };
+export const metadata = { title: "My inspections — Abodé" };
 
 export default async function StudentInspectionsPage() {
   const user = await getCurrentUser();

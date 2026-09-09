@@ -37,7 +37,7 @@ export default function Navbar({ user }) {
             <Building2 className="h-5 w-5" />
           </span>
           <span className="font-display text-xl font-medium tracking-tight text-ink">
-            OAU Lodge
+            Abodé
           </span>
         </Link>
 

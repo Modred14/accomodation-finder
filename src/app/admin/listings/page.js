@@ -9,7 +9,7 @@ import EmptyState from "@/components/ui/EmptyState";
 import ModerationActions from "@/components/admin/ModerationActions";
 import { formatNaira, periodLabel } from "@/lib/format";
 
-export const metadata = { title: "Listings — Admin — OAU Lodge" };
+export const metadata = { title: "Listings — Admin — Abodé" };
 
 const STATUS_TONE = { draft: "neutral", pending_review: "accent", published: "success", rejected: "danger", archived: "neutral" };
 

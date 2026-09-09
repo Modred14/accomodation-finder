@@ -8,7 +8,7 @@ import EmptyState from "@/components/ui/EmptyState";
 import ReportActions from "@/components/admin/ReportActions";
 import { relativeTime } from "@/lib/format";
 
-export const metadata = { title: "Reports — Admin — OAU Lodge" };
+export const metadata = { title: "Reports — Admin — Abodé" };
 
 const STATUS_TONE = { open: "accent", reviewed: "brand", resolved: "success", dismissed: "neutral" };
 

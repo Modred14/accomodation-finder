@@ -3,7 +3,7 @@ import Link from "next/link";
 import { Building2 } from "lucide-react";
 import LoginForm from "@/components/auth/LoginForm";
 
-export const metadata = { title: "Sign in — OAU Lodge" };
+export const metadata = { title: "Sign in — Abodé" };
 
 export default async function LoginPage({ searchParams }) {
   const sp = await searchParams;
@@ -13,7 +13,7 @@ export default async function LoginPage({ searchParams }) {
         <span className="flex h-9 w-9 items-center justify-center rounded-lg bg-brand-700 text-white">
           <Building2 className="h-5 w-5" />
         </span>
-        <span className="font-display text-xl font-medium">OAU Lodge</span>
+        <span className="font-display text-xl font-medium">Abodé</span>
       </Link>
       <div className="rounded-xl border border-border bg-paper p-6 sm:p-8">
         <h1 className="font-display text-2xl font-medium text-ink">Welcome back</h1>

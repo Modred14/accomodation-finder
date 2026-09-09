@@ -7,7 +7,7 @@ import { getFacilities } from "@/lib/queries/properties";
 import DashboardShell from "@/components/layout/DashboardShell";
 import PropertyForm from "@/components/owner/PropertyForm";
 
-export const metadata = { title: "Edit listing — OAU Lodge" };
+export const metadata = { title: "Edit listing — Abodé" };
 
 export default async function EditListingPage({ params }) {
   const { id } = await params;

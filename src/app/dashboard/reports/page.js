@@ -8,7 +8,7 @@ import Badge from "@/components/ui/Badge";
 import Button from "@/components/ui/Button";
 import { relativeTime } from "@/lib/format";
 
-export const metadata = { title: "My reports — OAU Lodge" };
+export const metadata = { title: "My reports — Abodé" };
 
 const STATUS_TONE = { open: "accent", reviewed: "brand", resolved: "success", dismissed: "neutral" };
 

@@ -11,7 +11,7 @@ import Pagination from "@/components/ui/Pagination";
 import EmptyState from "@/components/ui/EmptyState";
 
 export const metadata = {
-  title: "Find accommodation — OAU Lodge",
+  title: "Find accommodation — Abodé",
 };
 
 export default async function AccommodationsPage({ searchParams }) {

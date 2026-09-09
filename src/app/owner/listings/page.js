@@ -10,7 +10,7 @@ import Badge from "@/components/ui/Badge";
 import ListingRowActions from "@/components/owner/ListingRowActions";
 import { formatNaira, periodLabel } from "@/lib/format";
 
-export const metadata = { title: "My listings — OAU Lodge" };
+export const metadata = { title: "My listings — Abodé" };
 
 const STATUS_TONE = { draft: "neutral", pending_review: "accent", published: "success", rejected: "danger", archived: "neutral" };
 

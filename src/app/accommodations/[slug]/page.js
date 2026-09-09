@@ -34,7 +34,7 @@ export async function generateMetadata({ params }) {
   const property = await getPropertyBySlug(slug);
   if (!property) return {};
   return {
-    title: `${property.title} — OAU Lodge`,
+    title: `${property.title} — Abodé`,
     description: property.description?.slice(0, 150),
   };
 }

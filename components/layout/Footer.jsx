@@ -12,7 +12,7 @@ export default function Footer() {
               <span className="flex h-8 w-8 items-center justify-center rounded-lg bg-brand-700 text-white">
                 <Building2 className="h-4 w-4" />
               </span>
-              <span className="font-display text-lg font-medium">OAU Lodge</span>
+              <span className="font-display text-lg font-medium">Abodé</span>
             </div>
             <p className="mt-3 max-w-xs text-sm text-muted">
               Verified off-campus accommodation for students at Obafemi Awolowo University and beyond.
@@ -43,7 +43,7 @@ export default function Footer() {
           </div>
         </div>
         <div className="mt-10 flex flex-col gap-2 border-t border-border pt-6 text-xs text-muted sm:flex-row sm:items-center sm:justify-between">
-          <p>© {new Date().getFullYear()} OAU Lodge. Built for students, by design.</p>
+          <p>© {new Date().getFullYear()} Abodé. Built for students, by design.</p>
           <p>Ile-Ife, Osun State, Nigeria</p>
         </div>
       </div>
