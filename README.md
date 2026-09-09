@@ -1,6 +1,6 @@
 # README.md
 
-# OAU Lodge — Student Accommodation Search & Management
+# Abodé — Student Accommodation Search & Management
 
 A full-stack marketplace for university students to discover, search, filter,
 compare, save, and enquire about off-campus accommodation. Built for
@@ -96,12 +96,12 @@ The seed script creates one account per role. Password for all of them:
 
 | Role      | Email                              |
 |-----------|-------------------------------------|
-| Admin     | admin@oaulodge.app                  |
-| Landlord  | bayo.landlord@oaulodge.app          |
-| Landlord  | funke.landlord@oaulodge.app         |
-| Agent     | tunde.agent@oaulodge.app            |
-| Student   | chiamaka.student@oaulodge.app       |
-| Student   | segun.student@oaulodge.app          |
+| Admin     | admin@abode.app                  |
+| Landlord  | bayo.landlord@abode.app          |
+| Landlord  | funke.landlord@abode.app         |
+| Agent     | tunde.agent@abode.app            |
+| Student   | chiamaka.student@abode.app       |
+| Student   | segun.student@abode.app          |
 
 ## 6. Notable design/architecture decisions
 
