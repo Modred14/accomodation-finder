@@ -78,13 +78,13 @@ export default function LoginForm({ next }) {
           Create one
         </Link>
       </p>
-      <div className="mt-2 rounded-lg bg-surface p-3 text-xs text-muted">
+      {/* <div className="mt-2 rounded-lg bg-surface p-3 text-xs text-muted">
         <p className="font-medium text-ink">Demo accounts (password: Password123!)</p>
         <p className="mt-1">Student: chiamaka.student@abode.app</p>
         <p>Landlord: bayo.landlord@abode.app</p>
         <p>Agent: tunde.agent@abode.app</p>
         <p>Admin: admin@abode.app</p>
-      </div>
+      </div> */}
     </form>
   );
 }
